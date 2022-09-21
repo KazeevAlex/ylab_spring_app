@@ -1,6 +1,7 @@
 package com.edu.ulab.app.repo.impl;
 
 import com.edu.ulab.app.entity.BookEntity;
+import com.edu.ulab.app.exception.NotFoundException;
 import com.edu.ulab.app.repo.BookRepo;
 import com.edu.ulab.app.storage.Storage;
 import org.springframework.stereotype.Repository;
@@ -31,7 +32,11 @@ public class BookRepoImpl implements BookRepo {
 
     @Override
     public Set<BookEntity> getBooksByUserId(Long userId) {
-        return booksByUserId.get(userId);
+        Set<BookEntity> bookEntities = booksByUserId.get(userId);
+        if (bookEntities == null) {
+            throw new NotFoundException("User with the specified ID does not exist.");
+        }
+        return bookEntities;
     }
 
     @Override

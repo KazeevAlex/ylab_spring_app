@@ -8,4 +8,6 @@ public interface UserRepo {
     UserEntity getUserById(Long userId);
 
     void deleteUserById(Long id);
+
+    boolean isExisting(Long id);
 }

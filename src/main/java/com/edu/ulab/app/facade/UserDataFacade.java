@@ -4,6 +4,7 @@ import com.edu.ulab.app.dto.BookDto;
 import com.edu.ulab.app.dto.UserDto;
 import com.edu.ulab.app.entity.BookEntity;
 import com.edu.ulab.app.entity.UserEntity;
+import com.edu.ulab.app.exception.NotFoundException;
 import com.edu.ulab.app.mapper.BookMapper;
 import com.edu.ulab.app.mapper.UserMapper;
 import com.edu.ulab.app.service.BookService;
@@ -62,6 +63,9 @@ public class UserDataFacade {
 
     public UserBookResponse updateUserWithBooks(Long userId, UserBookRequest userBookRequest) {
         log.info("Got update request for user id: {}", userId);
+        if (!userService.isExisting(userId)) {
+            throw new NotFoundException("User with the specified ID does not exist.");
+        }
         UserDto userDto = userMapper.userRequestToUserDto(userBookRequest.getUserRequest());
         userDto.setId(userId);
         userService.updateUser(userDto);
